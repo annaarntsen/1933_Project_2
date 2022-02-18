@@ -1,0 +1,228 @@
+https://canvas.umn.edu/courses/290814/assignments/2396162
+https://docs.oracle.com/en/java/javase/11/docs/api/java.base/module-summary.html
+
+
+CSCI 1933 Project 2: Battleboats 
+Due date:  Thursday, March 3rd, 11:55pm 
+Total points:  100 
+ 
+Instructions 
+Please  read  and  understand  these  expectations  thoroughly.  Failure  to  follow  these  instructions  could 
+negatively impact your grade. Rules detailed in the course syllabus also apply but will not necessarily be 
+repeated here. 
+•  Due: The project is due on Thursday, March 3rd by midnight on Canvas. 
+•  Submission: Please submit a .zip file on Canvas containing your src/ folder with all .java files and the 
+README.txt  file.  If  you  are  working  with  a  partner,  only  one  student  should  submit  a  project  on 
+Canvas. Submissions in the incorrect format may receive a penalty. Submissions with missing code 
+will also be penalized. Make sure you submit all your source code! 
+•  Partners: You may work alone or with one partner. Please place your partner’s and your names and 
+x500s  in  a  comment  in  each  .java  file  you  submit  and  in  the  README.  Do  not  share  code  with 
+students other than your partner. 
+•  Code Sharing: If you use online resources to share code with your partner, please ensure the code 
+is private. Public repositories containing your code are prohibited because other students may copy 
+your work. 
+•  Java Version: The TAs will grade your code using Java version 11. Please ensure you have this version 
+of Java installed. 
+•  Grading:  We  will  not  be  using  unit  tests  to  grade  this  project.  You  are  free  to  make  any  design 
+decisions you want (as long as they do not contradict the project instructions), but your code must 
+be reasonably clean, well-designed, and commented thoroughly. Your code may receive a penalty 
+if it is confusing or demonstrates poor knowledge of Java. 
+•  Questions: Please post questions related to this project on the Piazza forum. 
+Introduction 
+Battleboats is a probability-based board game that challenges the user to locate enemy boats hidden on 
+a grid. The purpose of the game is to locate and destroy every enemy boat in the least number of guesses. 
+You will be modelling this game in Java. You must implement every part of the description below, but 
+the rest of your class and function design is up to you. Your code will also be judged based on good coding 
+style and readability. This should not be a stressful requirement - it simply means that you must create 
+logically organized, well-named, and well-commented code so the TAs can grade it. 
+ 
+Before  getting started, it will be helpful to read the project  description  in full. We have provided some 
+minimum requirements as well as some question to get you to think about the structure of the program. 
+It is important to consider these questions as we are not providing starting code for you and are allowing 
+you to make design decisions about some of the underlying structure of the program.  
+There  is  a  lot  to  do  in  this  project,  if  you  did  not  have  a  partner  for  the  first  project  you  may  want  to 
+consider  finding  one.  When  you  start  coding,  we  recommend  starting  by  making  the  Board  class  and 
+implementing all the suggested methods. 
+The Board 
+You  will  need  to  simulate  a  square  (n  ×  n)  board.  You  are  required  to  use  a  2-dimensional  array  to 
+represent the board. The type of this array is up to you. 
+The user must be able to select a game mode at the beginning of the game, and the program should create 
+a board with corresponding dimensions. 
+•  Beginner: 3 × 3 
+•  Intermediate: 6 × 6 
+•  Expert: 9 × 9 
+
+Assume that the points in the board range from (0,0) to (n − 1,n − 1) inclusive, where n is either 3, 6, or 9. 
+IMPORTANT: 
+The  board  should  be  its  own  Java  class  (i.e.,  Board.java)  which  creates  the  board  and  places  the  boats 
+randomly on the board, (we will get to the boats later in the description). If you run into issues getting the 
+boats to place randomly, we suggest that you place the boats manually to get the program running, then 
+revisit the random placement. 
+ 
+HINT: 
+To randomly place a boat, consider the coordinate in the upper left. If the upper left corner was 
+(0,0), consider how the boat looks if it is horizontal or vertical. What upper left corner coordinates 
+are  invalid?  The  placing  of  the  boats  may  be  the  most  challenging  aspect  of  this  project.  Think 
+about what assumptions you can make to simplify it. 
+To  generate  random  numbers,  the  Math.random()  method  can  be  used.  However,  this  method 
+returns a double in the range 0 to 1. We will need to scale this and then round it to an integer. To 
+do this, use the Math.floor(x) function, which takes a double x and rounds it down to the nearest 
+integer. For example, Math.floor(2.9) is 2.0. 
+The Board class should contain at least the following attributes: 
+
+•  private int numBoats: Indicates the number of boats 
+•  private Battleboats[] boats: Contains the Boat objects 
+•  private Cell[][] board: Contain the Cell objects 
+•  private int[] boatSizes: Indicates the length of boats 
+The Board class should contain at least the following methods: 
+•  public void placeBoats(): Places boats randomly on the board 
+•  public int fire(int x, int y): Handles attacking a coordinate 
+•  public void display(): Prints out the player board state every turn 
+•  public void print(): Prints out the fully revealed board if a player types in the print command (This 
+would be used for debugging purposes) 
+•  public Board(int  mode): Board class constructor 
+REFLECTION: 
+While we have only outlined the board (and briefly mentioned placement of boats), what other aspects 
+of the game may it be helpful for the board to know about or take care of? 
+Cells of the Board 
+The  Board  is  composed  of  Cells  (i.e.,  every  possible  location  in  the  array  in  the  Board  class).  Each  cell 
+should contain information about its location and status. You can accomplish this by using a Java class.  
+IMPORTANT: 
+The representation of cells should be its own Java class (i.e., Cells.java) which should create a cell object 
+and perform any needed actions on a cell.  
+The Cell class should contain at least the following attributes: 
+•  private int row: Indicates the row value of the Cell 
+•  private int col: Indicates the column value of the Cell 
+•  private char status: Character indicating the status of the Cell. There are three different possibilities 
+for this field, as shown in the table below 
+‘-’ Has not been guessed, no boat present 
+‘B’ Has not been guessed, boat present 
+‘H’ Has been guessed, boat present 
+‘M’ Has been guessed, no boat present 
+ 
+
+The Cell class should contain at least the following methods: 
+•  public char getStatus(): Getter method for status attribute 
+•  public void setStatus(char c): Setter method for status attribute 
+•  public int getRow(): Getter method for row attribute 
+•  public int getCol(): Getter method for column attribute 
+•  public Cell(int row, int col, char status): Cell class constructor 
+REFLECTION: 
+How is Cell related to Board? If you have difficulty answering this question, reach out to a TA! 
+ 
+ 
+Battleboats 
+Each boat is a line of consecutive cells on the board. Boats may not overlap other boats, extend outside 
+the  game  board,  or  be  placed  diagonally.  Boats  may  be  placed  horizontally  or  vertically.  A  boat  is 
+considered “sunk” when all the cells of the boat have been “hit” by the user. 
+ 
+Example: Given a boat of size 3, valid coordinates for it can be {(0,0), (0,1), (0,2)} and {(1,1), (2,1), 
+(3,1)}.  An  example  of  invalid  coordinates  is  {(0,0),  (0,1)},  which  is  invalid  because  there  are  not 
+enough points. {(0,0), (0,2), (0,3)} is invalid because the points are not consecutive. {(−1,0), (0,0), 
+(1,0)} is invalid because the first coordinate is out of bounds. 
+Finally, two boats cannot contain the same point because they cannot overlap. 
+As mentioned in the section on the Board, after the game mode has been chosen and the board has been 
+sized  appropriately,  the  program  should  place  boats  randomly  on  the  board.  This  requires  randomly 
+generating  a  coordinate  (x,y)  where  the  boat  will  be placed  as  well  as  randomly  choosing whether  the 
+boat should be horizontal or vertical. The number and size of boats are defined by the size of the board 
+(which is defined by the game mode). 
+Game Mode # of Boats Boat Sizes 
+Beginner (3 × 3) 1 2 
+Intermediate (6 × 6) 3 2, 3, 4 
+Expert (9 × 9) 5 2, 3, 3, 4, 5 
+ 
+The user should be told how many boats are on the board when the game begins. 
+ 
+ 
+IMPORTANT: 
+The representation of battleboats should be its own Java class (i.e., Battleboat.java), which should create 
+a boat object and preform any needs actions on a boat.  
+The Battleboat class should contain at least the following attributes: 
+•  private int size: Indicates the length of the Battleboat 
+•  private  boolean  orientation:  Indicates  the  orientation  (horizontal  or  vertical)  of  the  Battleboat. 
+Remember a boolean is either true or false. 
+•  private Cell[] spaces: A Cell array representing the cells that a Battleboat is in. 
+The Battleboat class should contain at least the following functions: 
+•  public boolean getOrientation(): Getter method for orientation attribute 
+•  public Cell[] getSpaces(): Getter method for spaces attribute 
+•  public void setSpaces(Cell[] cells): Setter method for spaces attribute 
+•  public int getSize(): Getter method for size attribute 
+•  public Battleboat(int length): Battleboat class constructor 
+REFLECTING: 
+What other information may  a Battleboat  need to know? Where may be  a good place to keep track of 
+information about the Battleboats? 
+ 
+ 
+Let’s Play the Game! 
+Battleboats is a turn-based game where, for each turn, a player will input a location in x,y coordinates to 
+attack on the board and hopefully hit boats. You can assume the input is always two integers, but you 
+will need to check if the pair x,y is a valid location on the game board later. You will also need to check if 
+that attack was successful!  
+The results of an attack are either: 
+• There was no boat at the locations and the attack missed 
+o Player should see a message of “Miss” 
+• There is a boat at the location and the attack was a hit 
+o Player should see a message of “Hit” 
+o If the hit sinks the boat the player should get a message of “Sunk” instead 
+• The player has already attacked that location, or the location is out of bounds 
+o Player should see a message of “Penalty” 
+
+If the user receives a penalty (for attacking the same cell twice or for attacking somewhere out of bounds), 
+the user’s next turn will be skipped. The game ends when all the boats have been sunk. The game should 
+report how many turns it took to sink all the boats. 
+Lower scores are better! 
+Example: Suppose the board is 3 ∗ 3 and just one boat is placed with the coordinates 
+(0,0),(0,1),(0,2). 
+Turn 1: The user selects (1,0) and “miss” is printed. 
+Turn 2: The user selects (0,0) and “hit” is printed. 
+Turn 3: The user selects (0,0) again and is penalized by losing turn 4. 
+Turn 4: Skipped. 
+Turn 5: The user selects (0,1) and “hit” is printed. 
+Turn 6: The user selects (−1,0)—which is out of bounds—and is penalized by losing turn 7. 
+Turn 7: Skipped. 
+Turn 8: The user selects (0,2) and “sunk” is printed. The game ends because the last boat has sunk. 
+Prior to each turn, a visual representation of the game board should be printed for the user to see. This 
+representation can be formatted as a grid or simply as a list, but it should be easy to read and understand. 
+The representation should display the cells that have been fired on so far and whether they are hits or 
+misses.  The  cells  which  have  not  been  fired  on  should  be  obscured  to  conceal  the  locations  of  the 
+remaining boats.  
+IMPORTANT: 
+The representation of the game  should be  its own Java class (i.e., Game.java) which should handle the 
+turn taking aspect of the game as well  as checking to see if a player has won. It should also create and 
+initialize a Board object and use a Scanner to take in user input until game end. This is your driver class 
+and will contain the main method for the program.  
+The Game class should contain at least the following function: 
+•  public static void main(String[] args): Driver code of the program 
+REFLECTION: 
+What order do events need to happen in? What information do you need in the driver to make everything 
+happen? 
+ 
+ 
+ 
+Debug Mode 
+The  sections  above  should  hide  the  game  data  from  the  user  so  the  user  cannot  cheat.  However,  for 
+grading purposes, you are required to add a debug mode. The game should ask the user whether to run 
+in debug mode and set a flag internally. 
+If the game is in debug mode, print the game board on the screen before every turn. This means printing 
+the locations of boats as well as which sections have been hit. Provide some way to identify which unhit 
+cells belong to which boat (e.g. print the boat length in the cell) so the debugging user can tell how close 
+a boat is to sinking. You can format output as a grid or provide a list of information, but it should be easy 
+to read and understand. 
+If the game is not in debug mode, do not print this information. 
+README File 
+Make sure to include a README.txt file with your submission that contains the following information: 
+•  Group member’s names and x500s 
+•  Contributions of each partner (if working with a partner) 
+•  How to compile and run your program 
+•  Any assumptions 
+•  Additional features that you implemented (if applicable) 
+•  Any known bugs or defects in the program 
+•  Any outside  sources  (aside  from  course  resources)  consulted  for  ideas  used  in  the  project,  in  the 
+format: 
+-  idea1: source 
+-  idea2: source 
+-  idea3: source 
+•  Include the statement: “I certify that the information contained in this README file is complete 
+and accurate. I have both read and followed the course policies in the ‘Academic Integrity - Course 
+Policy’ section of the course syllabus.” and type your name(s) underneath 
+There is a ten-point deduction for a missing or incomplete README.
