@@ -1,13 +1,16 @@
+// Written by Anna Arntsen (arnts071) and Ariel Larin (larin006)
+
+import java.util.Random;
+import java.util.Scanner;
+
 public class Cells {
-    private int row;
-    //Indicates the row value of the Cell
-    private int col;
-    //Indicates the column value of the Cell
+    private int row;     //Indicates the row value of the Cell
+    private int col;     //Indicates the column value of the Cell
     private char status;
     /*
     Character indicating the status of the Cell. There are three different possibilities
-for this field: '-' Has not been guessed, no boat present | 'B' Has not been guessed, boat present | 'H' Has been guessed, boat present
-| 'M' Has been guessed, no boat present
+    for this field: '-' Has not been guessed, no boat present | 'B' Has not been guessed, boat present | 'H' Has been guessed, boat present
+    | 'M' Has been guessed, no boat present
      */
 
     public char getStatus() {

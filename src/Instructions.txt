@@ -27,7 +27,8 @@ of Java installed.
 decisions you want (as long as they do not contradict the project instructions), but your code must 
 be reasonably clean, well-designed, and commented thoroughly. Your code may receive a penalty 
 if it is confusing or demonstrates poor knowledge of Java. 
-•  Questions: Please post questions related to this project on the Piazza forum. 
+•  Questions: Please post questions related to this project on the Piazza forum.
+
 Introduction 
 Battleboats is a probability-based board game that challenges the user to locate enemy boats hidden on 
 a grid. The purpose of the game is to locate and destroy every enemy boat in the least number of guesses. 

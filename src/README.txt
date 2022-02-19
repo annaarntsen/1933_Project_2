@@ -14,7 +14,7 @@ Make sure to include a README.txt file with your submission that contains the fo
 •  Any known bugs or defects in the program 
 •  Any outside  sources  (aside  from  course  resources)  consulted  for  ideas  used  in  the  project,  in  the 
 format: 
--  idea1: source 
+-  While(true) invalid input catch case: https://stackoverflow.com/questions/18721884/re-prompt-user-after-invalid-input-in-java
 -  idea2: source 
 -  idea3: source 
 •  Include the statement: “I certify that the information contained in this README file is complete 

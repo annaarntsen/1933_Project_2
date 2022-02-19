@@ -1,3 +1,8 @@
+// Written by Anna Arntsen (arnts071) and Ariel Larin (larin006)
+
+import java.util.Random;
+import java.util.Scanner;
+
 public class Battleboats {
     private int size; //Indicates the length of the Battleboat
     private boolean orientation; //Indicates  the  orientation  (horizontal or vertical)  of  the  Battleboat.

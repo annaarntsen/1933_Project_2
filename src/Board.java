@@ -1,4 +1,6 @@
+// Written by Anna Arntsen (arnts071) and Ariel Larin (larin006)
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class Board {
@@ -9,27 +11,31 @@ public class Board {
     private int[] boatSizes;
 
 
-    public static void main(String[] args) {
-//main
-        Scanner choice = new Scanner(System.in); //Our scanner object
-        System.out.println("Select your difficulty: Beginner, Intermediate, Expert");
-        String input = choice.nextLine();
-    }
+    public void placeBoats() {      //Place boats randomly on the board
 
-    public void placeBoats() {
-        int rows = 0;
-        int coulmns = 0;
 
     }
 
-    //Places boats randomly on the board
-    public int fire(int rows, int columns) {
 
+    public int fire(int x, int y) {     // xy coordinates called from Game class
+
+        // if already "M" or "H" or out of bounds assign  (check if already fired on --> yes auto = 0)
+        switch (tbd) {      // refer to Game for reference cases on returns
+            case "P": // penalty
+                return 0;
+            case "M": // miss
+                return 1;
+            case "H": // hit
+                return 2;
+            case 3: // sunk
+                return 3;
+            default:
+                return 0;
     }
 
     //Handles attacking a coordinate
-    public void display() {
-//Prints out the player board state every turn
+    public void display() {         //Prints out the player board state every turn
+
         System.out.println();
     }
 
@@ -45,7 +51,7 @@ public class Board {
     }
 
     public Board(int mode) {
-//Board class constructor
+    //Board class constructor
         board = new Cells[mode][mode];
         for(int i = 0;i < mode;i++) {
             for(int j = 0; j < mode; j++){
