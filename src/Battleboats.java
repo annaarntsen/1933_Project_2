@@ -17,23 +17,25 @@ public class Battleboats {
     }
 
     public Cells[] getSpaces(){
-        return this.spaces;
+        return spaces;
         //Getter method for spaces attribute
     }
 
     public void SetSpaces(Cells[] cells){
-        this.spaces = cells;
+        spaces = cells;
         //Setter method for spaces attribute
     }
 
     public int getSize(){
-        return this.size;
+        return size;
 
         //Getter method for size attribute
     }
 
     public Battleboats(int length){
-        this.size = length;
+        size = length;
+        spaces = new Cells[size];
+        orientation = true; //true is horizontal, false is vertical orientation
 
         //Battleboat class constructor
     }

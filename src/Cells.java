@@ -1,7 +1,6 @@
 // Written by Anna Arntsen (arnts071) and Ariel Larin (larin006)
 
-import java.util.Random;
-import java.util.Scanner;
+
 
 public class Cells {
     private int row;     //Indicates the row value of the Cell
