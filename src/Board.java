@@ -1,5 +1,6 @@
 // Written by Anna Arntsen (arnts071) and Ariel Larin (larin006)
 
+import java.lang.Math;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -12,19 +13,60 @@ public class Board {
 
 
     public void placeBoats() {      //Place boats randomly on the board
-        for (int i = 0; i < boatSizes.length; i++) {
-                int var = Math.random() * board.length;
+        Cells[] boatCells;
+        for(int ship: boatSizes){
+            int max = board.length;
+            int randX;                     //We use a while loop so as long as we are out of bounds, a random x and y position and orientation will be assigned.
+            int randY;
+            boolean randOrientation;
+
+            do {
+                randX = (int) Math.random() * max ;                     //We use a while loop so as long as we are out of bounds, a random x and y position and orientation will be assigned.
+                randY = (int) Math.random() * max;
+                Random r = new Random();
+                randOrientation = r.nextBoolean();
+            }
+            while(inBounds(randX, randY,randOrientation, ship));
+
+            boatCells = new Cells[ship];
+            if(!randOrientation){    //If our orientation is horizontal, we want to place
+                for (int x = randX; x < x + ship; x++){
+                board[randX][randY].setStatus('B');
+                boatCells[x - randX] = board[randX][randY];
+            }
+
+                //iterate through boat sizes/each boat. Then, for each size/boat, randomly determine and x and y position for each boat and an orientation.
+                //Check orientation and x,y placement is valid as in within the cell array/board.
+                //Set up a while loop that checks until it finds a random valid place to put a boat
+                //Once place is valid, we actually place the boat. To accomplish that, we must alter the status of each cell in the board array
+                // we need to create a cell array that has the locations of each cell of the current boat.
+                //We pass that into boats
+
+            }
+            else{
+                for(int y = randY; y < y + ship; y++){
+                    board[randX][randY].setStatus('B');
+                    boatCells[y - randY] = board[randX][randY];
+                }
+            }
+            boats[ship] = new Battleboats(boatSizes[ship]);
             }
         }
-        //iterate through boat sizes/each boat. Then, for each size/boat, randomly determine and x and y position for each boat and an orientation.
-        //Check orientation and x,y placement is valid as in within the cell array/board.
-        //Set up a while loop that checks until it finds a random valid place to put a boat
-        //Once place is valid, we actually place the boat. To accomplish that, we must alter the status of each cell in the board array
-        // we need to create a cell array that has the locations of each cell of the current boat.
-        //We pass that into boats
 
+    public boolean inBounds(int x, int y, boolean orient, int shipSize){    //This is a helper method that we use in placeBoats to check if the random placement
+        if(x >= board.length || y >= board.length || x < 0 ||y < 0){       //is out of bounds or not.
+            return false;
+        }
+        if(orient == true){
+            shipSize += x;
+        }
+        else{
+            shipSize += y;
+        }
+        if(shipSize >= board.length){
+            return false;
+        }
     }
-
 
     public int fire(int x, int y) {     // xy coordinates called from Game class
 
