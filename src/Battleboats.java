@@ -28,7 +28,6 @@ public class Battleboats {
 
     public int getSize(){
         return size;
-
         //Getter method for size attribute
     }
 
@@ -38,6 +37,12 @@ public class Battleboats {
         orientation = true; //true is horizontal, false is vertical orientation
 
         //Battleboat class constructor
+    }
+    public Battleboats(int length, boolean orient){
+        size = length;
+        spaces = new Cells[size];
+        orientation = orient;
+
     }
 
 }
