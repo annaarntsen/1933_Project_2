@@ -24,8 +24,8 @@ public class Board {
 
             do {
                 Random r = new Random();
-                randX = r.nextInt(0,boardLength+1);                     //We use a while loop so as long as we are out of bounds, a random x and y position and orientation will be assigned.
-                randY = r.nextInt(0,boardLength+1);
+                randX = r.nextInt(0,boardLength);                     //We use a while loop so as long as we are out of bounds, a random x and y position and orientation will be assigned.
+                randY = r.nextInt(0,boardLength);
                 randOrientation = r.nextBoolean();
             }
             while(!(inBounds(randX, randY, randOrientation, ship)));
@@ -73,38 +73,58 @@ public class Board {
     }
 
     public int fire(int x, int y) {     // xy coordinates called from Game class
-
+        if ((board[x][y].getStatus() == 'H' || board[x][y].getStatus() == 'M') || (x<0 || x>boardLength) || (y<0 || y>boardLength)) {
+            return 0;      // "penalty" assigned to 0 in Game
+        }
         // if coordinate already "M" miss or "H" hit or out of bounds assign penalty is applied  (basically check if valid coordinates and/or already fired on --> if yes, then automatically return 0)
-        switch (tbd) {      // work in progress: return value is assigned to an int based on the status of the cell that is fed to Game to determine what to print to user
-            case "P": // penalty        - once the function is created, the coordinated passed in will be checked to determine status, updated, and sent to Game to create correct interaction with player
+        switch (board[x][y].getStatus()) {      // work in progress: return value is assigned to an int based on the status of the cell that is fed to Game to determine what to print to user
+            case '-': // No boat, not guessed        - once the function is created, the coordinated passed in will be checked to determine status, updated, and sent to Game to create correct interaction with player
+                board[x][y].setStatus('M');        // - ex: if the coordinate passed is in bounds, hasn't already been guessed, and there is no boat present, 1 is returned and Game will print "Miss" and continue to play
+                boolean shipSunk = this.checkSunk(x,y);
+                    if (shipSunk) {return 3;}
                 return 0;
-            case "M": // miss           - ex: if the coordinate passed is in bounds, hasn't already been guessed, and there is no boat present, 1 is returned and Game will print "Miss" and continue to play
+            case 'B': // hit, boat
+                board[x][y].setStatus('H');         // update status to hit
+                boolean shipSunk2 = this.checkSunk(x,y);        // calls helper function to check if boat was sunk
+                    if (shipSunk2) {return 3;}      // returns value associated with "hit" in Game
                 return 1;
-            case "H": // hit
-                return 2;
-            case 3: // sunk
-                return 3;
             default:
                 return 0;
         }
     }
 
-        //Handles attacking a coordinate
-        public void display () {         //Prints out the player board state every turn
-
-            System.out.println();
-        }
-
-        public void print () {
-            //Prints out the fully revealed board if a player types in the print command (This
-            //would be used for debugging purposes)
-            for (int i = 0; i < boardLength; i++) {
-                for (int j = 0; j < boardLength; j++) {
-                    System.out.print(board[i][j].getStatus());
+    public boolean checkSunk(int x, int y) {
+        int sunkVal = 0;
+        for (Battleboats eachBoat: boats) {
+            for (Cells thisCell: eachBoat.getSpaces()) {
+                if (thisCell.getStatus() == 'H') {
+                    sunkVal += 1;
                 }
-                System.out.println();
+            }
+            if (sunkVal >= eachBoat.getSize()) {
+                return true;
             }
         }
+        return false;
+    }
+
+
+    //Handles attacking a coordinate
+    public void display () {         //Prints out the player board state every turn
+
+        System.out.println();
+    }
+
+    public void print () {
+        //Prints out the fully revealed board if a player types in the print command (This
+        //would be used for debugging purposes)
+        for (int i = 0; i < boardLength; i++) {
+            for (int j = 0; j < boardLength; j++) {
+                System.out.print(board[i][j].getStatus());
+            }
+            System.out.println();
+        }
+    }
 
     public Board( int mode){
         //Board class constructor
@@ -127,8 +147,6 @@ public class Board {
            boatSizes = new int[]{2, 3, 3, 4, 5};
            numBoats = 5;
        }
-       }
-        }
+       this.placeBoats();
     }
-
 }
