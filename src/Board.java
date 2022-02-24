@@ -57,7 +57,7 @@ public class Board {
 
     public boolean inBounds(int x, int y, boolean orient, int sizeShip){    //This is a helper method that we use in placeBoats to check if the random placement
         int shipSize = sizeShip;
-        if(x >= boardLength || y >= boardLength || x < 0 ||y < 0){       //is out of bounds or not.
+        if(x >= boardLength-1 || y >= boardLength-1 || x < 0 ||y < 0){       //is out of bounds or not.
             return false;
         }
         if(orient == true){
@@ -66,14 +66,14 @@ public class Board {
         else{
             shipSize += y;
         }
-        if(shipSize >= boardLength){
+        if(shipSize >= boardLength-1){
             return false;
         }
         else{ return true; }
     }
 
     public int fire(int x, int y) {     // xy coordinates called from Game class
-        if ((x<0 || x>boardLength) || (y<0 || y>boardLength)) {     // seperate so doesn't throw out of bounds exception
+        if ((x<0 || x>boardLength-1) || (y<0 || y>boardLength-1)) {     // seperate so doesn't throw out of bounds exception
             return 0;
         }
         if ((board[x][y].getStatus() == 'H' || board[x][y].getStatus() == 'M')) {
@@ -126,11 +126,11 @@ public class Board {
                 if (board[j][i].getStatus() == 'B') {
                     for (Battleboats eachBoat : boats) {
                         if (eachBoat.locateCoordinates(j,i));
-                        System.out.print(board[j][i].getStatus()+""+eachBoat.getSize()+ "  ");
+                        System.out.print(board[j][i].getStatus()+""+eachBoat.getSize()+ " ");
                     }
                 }
                 else {
-                    System.out.print(board[j][i].getStatus()+"  ");
+                    System.out.print(board[j][i].getStatus()+"   ");
                 }
             }
             System.out.println("\n");
