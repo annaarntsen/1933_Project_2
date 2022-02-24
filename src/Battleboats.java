@@ -34,10 +34,21 @@ public class Battleboats {
     public Battleboats(int length){
         size = length;
         spaces = new Cells[size];
-        orientation = true; //true is horizontal, false is vertical orientation
+        Random r = new Random();
+        orientation = r.nextBoolean();//true is horizontal, false is vertical orientation
 
         //Battleboat class constructor
     }
+
+    public boolean locateCoordinates(int x, int y) {
+        for (Cells i: spaces){
+            if (i.getRow() == x && i.getCol() == y) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Battleboats(int length, boolean orient){
         size = length;
         spaces = new Cells[size];

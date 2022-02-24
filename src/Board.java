@@ -11,10 +11,10 @@ public class Board {
     private Battleboats[] boats;
     private Cells[][] board;
     private int[] boatSizes;
+    public int boatsSunk;
 
 
     public void placeBoats() {      //Place boats randomly on the board
-        Cells[] boatCells;
         int boatIndex = -1;
         for(int ship: boatSizes){
             boatIndex += 1;
@@ -24,14 +24,14 @@ public class Board {
 
             do {
                 Random r = new Random();
-                randX = r.nextInt(0,boardLength);                     //We use a while loop so as long as we are out of bounds, a random x and y position and orientation will be assigned.
-                randY = r.nextInt(0,boardLength);
+                randX = r.nextInt(0,boardLength-1);                     //We use a while loop so as long as we are out of bounds, a random x and y position and orientation will be assigned.
+                randY = r.nextInt(0,boardLength-1);
                 randOrientation = r.nextBoolean();
             }
             while(!(inBounds(randX, randY, randOrientation, ship)));
             Battleboats newBoat = new Battleboats(ship,randOrientation);
 
-            boatCells = new Cells[ship];
+            Cells[] boatCells = new Cells[ship];
             if(!randOrientation){    //If our orientation is horizontal, we want to place
                 for (int x = randX,i = 0; x < randX + ship; x++, i++){
                 board[x][randY].setStatus('B');
@@ -73,7 +73,10 @@ public class Board {
     }
 
     public int fire(int x, int y) {     // xy coordinates called from Game class
-        if ((board[x][y].getStatus() == 'H' || board[x][y].getStatus() == 'M') || (x<0 || x>boardLength) || (y<0 || y>boardLength)) {
+        if ((x<0 || x>boardLength) || (y<0 || y>boardLength)) {     // seperate so doesn't throw out of bounds exception
+            return 0;
+        }
+        if ((board[x][y].getStatus() == 'H' || board[x][y].getStatus() == 'M')) {
             return 0;      // "penalty" assigned to 0 in Game
         }
         // if coordinate already "M" miss or "H" hit or out of bounds assign penalty is applied  (basically check if valid coordinates and/or already fired on --> if yes, then automatically return 0)
@@ -82,12 +85,12 @@ public class Board {
                 board[x][y].setStatus('M');        // - ex: if the coordinate passed is in bounds, hasn't already been guessed, and there is no boat present, 1 is returned and Game will print "Miss" and continue to play
                 boolean shipSunk = this.checkSunk(x,y);
                     if (shipSunk) {return 3;}
-                return 0;
+                return 1;
             case 'B': // hit, boat
                 board[x][y].setStatus('H');         // update status to hit
                 boolean shipSunk2 = this.checkSunk(x,y);        // calls helper function to check if boat was sunk
                     if (shipSunk2) {return 3;}      // returns value associated with "hit" in Game
-                return 1;
+                return 2;
             default:
                 return 0;
         }
@@ -102,17 +105,36 @@ public class Board {
                 }
             }
             if (sunkVal >= eachBoat.getSize()) {
+                boatsSunk += 1;
                 return true;
             }
         }
         return false;
     }
 
+    public boolean checkWin(){
+        if (boatsSunk == numBoats){
+            return true;
+        }
+        return false;
+    }
 
-    //Handles attacking a coordinate
-    public void display () {         //Prints out the player board state every turn
 
-        System.out.println();
+    public void display () {
+        for (int i = 0; i < boardLength; i++) {
+            for (int j = 0; j < boardLength; j++) {
+                if (board[j][i].getStatus() == 'B') {
+                    for (Battleboats eachBoat : boats) {
+                        if (eachBoat.locateCoordinates(j,i));
+                        System.out.print(board[j][i].getStatus()+""+eachBoat.getSize()+ "  ");
+                    }
+                }
+                else {
+                    System.out.print(board[j][i].getStatus()+"  ");
+                }
+            }
+            System.out.println("\n");
+        }
     }
 
     public void print () {
@@ -120,9 +142,14 @@ public class Board {
         //would be used for debugging purposes)
         for (int i = 0; i < boardLength; i++) {
             for (int j = 0; j < boardLength; j++) {
-                System.out.print(board[i][j].getStatus());
+                if (board[j][i].getStatus() == 'B') {
+                    System.out.print("-"+"  ");
+                }
+                else {
+                    System.out.print(board[j][i].getStatus()+"  ");
+                }
             }
-            System.out.println();
+            System.out.println("\n");
         }
     }
 
@@ -138,15 +165,18 @@ public class Board {
        if(mode == 3) {
            boatSizes = new int[]{2};
            numBoats = 1;
+           boats = new Battleboats[numBoats];
            }
        else if(mode == 6){
            boatSizes = new int[]{2, 3, 4};
            numBoats = 3;
+           boats = new Battleboats[numBoats];
        }
            else{
            boatSizes = new int[]{2, 3, 3, 4, 5};
            numBoats = 5;
+           boats = new Battleboats[numBoats];
        }
-       this.placeBoats();
+//       board.placeBoats();
     }
 }
