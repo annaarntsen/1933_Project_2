@@ -27,8 +27,8 @@ public class Game {
             }
             Scanner xyInput = new Scanner(System.in);
             System.out.println("Enter an x and y coordinate: ");       // Asks for xy coordinate input from player
-            int xChoice = xyInput.nextInt() -1;    // x (xChoice) and y (yChoice) coordinates assigned per input
-            int yChoice = xyInput.nextInt() -1;
+            int xChoice = xyInput.nextInt();    // x (xChoice) and y (yChoice) coordinates assigned per input
+            int yChoice = xyInput.nextInt();
             int report = b.fire(xChoice, yChoice);   // Calls Board fire function (inputs xy coordinates by player as parameters) on the board, 'b', which returns an integer with correlating to the status of the hit and is assigned to varibale report
             switch (report) {
                 case 0: // penalty

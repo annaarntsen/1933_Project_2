@@ -28,7 +28,7 @@ public class Board {
                 randY = r.nextInt(0,boardLength-1);
                 randOrientation = r.nextBoolean();
             }
-            while(!(inBounds(randX, randY, randOrientation, ship)));
+            while(!(inBounds(randX, randY, randOrientation, ship)) || overLap(randX, randY, randOrientation, ship)); //|| overLap(randX, randY, randOrientation, ship)
             Battleboats newBoat = new Battleboats(ship,randOrientation);
 
             Cells[] boatCells = new Cells[ship];
@@ -60,7 +60,7 @@ public class Board {
         if(x >= boardLength-1 || y >= boardLength-1 || x < 0 ||y < 0){       //is out of bounds or not.
             return false;
         }
-        if(orient == true){
+        if(orient){
             shipSize += x;
         }
         else{
@@ -69,11 +69,29 @@ public class Board {
         if(shipSize >= boardLength-1){
             return false;
         }
-        else{ return true; }
+       return true;
+    }
+    public boolean overLap(int x, int y, boolean orient, int sizeShip) {  //This helper function is designed to check whether a boat's placement overlaps with the position of another.
+        if(orient) { //if horizontal
+            for (int i = x; i < x + sizeShip; i++) {        //Here, I iterate over the position plus the ship size and check if the status is 'B', signifying the presence of a boat
+                if (board[i][y].getStatus() == 'B') {
+                    return true;
+                }
+            }
+            return false;
+        } else { //if vertical
+            for (int i = y; i < y + sizeShip; i++) {
+                if (board[x][i].getStatus() == 'B') {
+                    return true;
+                }
+            }
+                return false;
+        }
     }
 
+
     public int fire(int x, int y) {     // xy coordinates called from Game class
-        if ((x<0 || x>boardLength-1) || (y<0 || y>boardLength-1)) {     // seperate so doesn't throw out of bounds exception
+        if ((x<0 || x>boardLength-1) || (y<0 || y>boardLength-1)) {     // separate so doesn't throw out of bounds exception
             return 0;
         }
         if ((board[x][y].getStatus() == 'H' || board[x][y].getStatus() == 'M')) {
@@ -125,8 +143,9 @@ public class Board {
             for (int j = 0; j < boardLength; j++) {
                 if (board[j][i].getStatus() == 'B') {
                     for (Battleboats eachBoat : boats) {
-                        if (eachBoat.locateCoordinates(j,i));
-                        System.out.print(board[j][i].getStatus()+""+eachBoat.getSize()+ " ");
+                        if (eachBoat.locateCoordinates(j,i)) {
+                            System.out.print(board[j][i].getStatus() + "" + eachBoat.getSize() + " ");
+                        }
                     }
                 }
                 else {
