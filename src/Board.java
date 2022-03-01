@@ -24,18 +24,36 @@ public class Board {
 
             do {
                 Random r = new Random();
-                randX = r.nextInt(0,boardLength-1);                     //We use a while loop so as long as we are out of bounds, a random x and y position and orientation will be assigned.
-                randY = r.nextInt(0,boardLength-1);
                 randOrientation = r.nextBoolean();
+                if(!randOrientation) {  // if horizontal
+                    try {
+                        randX = r.nextInt(0, ((boardLength-1)-ship));                     //We use a while loop so as long as we are out of bounds, a random x and y position and orientation will be assigned.
+                        randY = r.nextInt(0, (boardLength - 1));
+                    }
+                    catch(IllegalArgumentException ex) {
+                        randX = 0;
+                        randY = r.nextInt(0, (boardLength - 1));
+                    }
+                }
+                else {      // if vertical
+                    try {
+                        randY = r.nextInt(0,((boardLength-1)-ship));
+                        randX = r.nextInt(0,(boardLength-1));
+                    }
+                    catch(IllegalArgumentException ex) {
+                        randY = 0;
+                        randX = r.nextInt(0,(boardLength-1));
+                    }
+                }
             }
-            while(!(inBounds(randX, randY, randOrientation, ship)) || overLap(randX, randY, randOrientation, ship)); //|| overLap(randX, randY, randOrientation, ship)
+            while(!((inBounds(randX, randY, randOrientation, ship)) || (overLap(randX, randY, randOrientation, ship)))); //|| overLap(randX, randY, randOrientation, ship)
             Battleboats newBoat = new Battleboats(ship,randOrientation);
 
             Cells[] boatCells = new Cells[ship];
             if(!randOrientation){    //If our orientation is horizontal, we want to place
-                for (int x = randX,i = 0; x < randX + ship; x++, i++){
-                board[x][randY].setStatus('B');
-                boatCells[i] = board[x][randY];
+                for (int x = randX,i = 0; x < (randX + ship); x++, i++){
+                    this.board[x][randY].setStatus('B');
+                    boatCells[i] = this.board[x][randY];
             }
                 //iterate through boat sizes/each boat. Then, for each size/boat, randomly determine and x and y position for each boat and an orientation.
                 //Check orientation and x,y placement is valid as in within the cell array/board.
@@ -45,47 +63,51 @@ public class Board {
                 //We pass that into boats
             }
             else{
-                for(int y = randY, i = 0; y < randY + ship; y++, i++){      // vertical orientation
-                    board[randX][y].setStatus('B');
-                    boatCells[i] = board[randX][y];
+                for(int y = randY, i = 0; y < (randY + ship); y++, i++){      // vertical orientation
+                    this.board[randX][y].setStatus('B');
+                    boatCells[i] = this.board[randX][y];
                 }
             }
             newBoat.SetSpaces(boatCells);       // associates cells from boatCells with the Battleboat object newBoat
             boats[boatIndex] = newBoat;         // adds Battleboat object to boat array
             }
+        this.display();
+        System.out.println("\n");
         }
 
     public boolean inBounds(int x, int y, boolean orient, int sizeShip){    //This is a helper method that we use in placeBoats to check if the random placement
-        int shipSize = sizeShip;
+        int shipSize = sizeShip-1;
         if(x >= boardLength-1 || y >= boardLength-1 || x < 0 ||y < 0){       //is out of bounds or not.
             return false;
         }
-        if(orient){
+        if(!orient){
             shipSize += x;
         }
         else{
             shipSize += y;
         }
-        if(shipSize >= boardLength-1){
+        if(shipSize >= boardLength){
             return false;
         }
        return true;
     }
+
     public boolean overLap(int x, int y, boolean orient, int sizeShip) {  //This helper function is designed to check whether a boat's placement overlaps with the position of another.
-        if(orient) { //if horizontal
+        if(!orient) { //if horizontal
             for (int i = x; i < x + sizeShip; i++) {        //Here, I iterate over the position plus the ship size and check if the status is 'B', signifying the presence of a boat
-                if (board[i][y].getStatus() == 'B') {
-                    return true;
+                if (this.board[i][y].getStatus() == 'B') {
+                    return false;
                 }
             }
-            return false;
-        } else { //if vertical
+            return true;
+        }
+        else { //if vertical
             for (int i = y; i < y + sizeShip; i++) {
-                if (board[x][i].getStatus() == 'B') {
-                    return true;
+                if (this.board[x][i].getStatus() == 'B') {
+                    return false;
                 }
             }
-                return false;
+            return true;
         }
     }
 
@@ -139,12 +161,20 @@ public class Board {
 
 
     public void display () {
+        int columnLabel = 0;
+        System.out.print("    ");
+        while (columnLabel<boardLength) {
+            System.out.print(columnLabel+"   ");
+            columnLabel++;
+        }
+        System.out.print("\n");
         for (int i = 0; i < boardLength; i++) {
+            System.out.print(i+"   ");
             for (int j = 0; j < boardLength; j++) {
                 if (board[j][i].getStatus() == 'B') {
                     for (Battleboats eachBoat : boats) {
                         if (eachBoat.locateCoordinates(j,i)) {
-                            System.out.print(board[j][i].getStatus() + "" + eachBoat.getSize() + " ");
+                            System.out.print(board[j][i].getStatus() + "" + eachBoat.getSize() + "  ");
                         }
                     }
                 }
@@ -154,18 +184,33 @@ public class Board {
             }
             System.out.println("\n");
         }
+        System.out.println("Boat Coordinates with Status:");
+        for (int numberPrintBoat = 0; numberPrintBoat < numBoats; numberPrintBoat++) {
+            System.out.println("Boat #"+numberPrintBoat+": ");
+            for (Cells boatCell: boats[numberPrintBoat].getSpaces()) {
+                System.out.println(" ("+boatCell.getRow()+", "+boatCell.getCol()+") - "+boatCell.getStatus());
+            }
+        }
     }
 
     public void print () {
         //Prints out the fully revealed board if a player types in the print command (This
         //would be used for debugging purposes)
+        int columnLabel = 0;
+        System.out.print("    ");
+        while (columnLabel<boardLength) {
+            System.out.print(columnLabel+"   ");
+            columnLabel++;
+        }
+        System.out.print("\n");
         for (int i = 0; i < boardLength; i++) {
+            System.out.print(i+"   ");
             for (int j = 0; j < boardLength; j++) {
                 if (board[j][i].getStatus() == 'B') {
-                    System.out.print("-"+"  ");
+                    System.out.print("-"+"   ");
                 }
                 else {
-                    System.out.print(board[j][i].getStatus()+"  ");
+                    System.out.print(board[j][i].getStatus()+"   ");
                 }
             }
             System.out.println("\n");

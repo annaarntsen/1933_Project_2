@@ -1,5 +1,6 @@
 // Written by Anna Arntsen (arnts071) and Ariel Larin (larin006)
 
+import java.util.Locale;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -34,7 +35,7 @@ public class Game {
                 case 0: // penalty
                     System.out.println("Penalty!");
                     trackTurns += 1;
-                    System.out.println("Turn " + trackTurns + " skipped! :/");
+                    System.out.println("Turn " + trackTurns + " skipped! :/ \n");
                     break;
                 case 1: // miss
                     System.out.println("Miss!");
@@ -52,7 +53,7 @@ public class Game {
             }
             trackTurns += 1;
         }
-        System.out.println("Congrats! All " + b.boatsSunk + " boat(s) were sunk in "+(trackTurns-1)+" turns!");
+        System.out.println("Game Over! All " + b.boatsSunk + " boat(s) were sunk in "+(trackTurns-1)+" turns!");
         System.exit(0);
     }
 
@@ -64,21 +65,22 @@ public class Game {
             Scanner gameChoice = new Scanner(System.in);    //Our scanner object
             System.out.println("Select your difficulty: Beginner, Intermediate, Expert ");
             String mode = gameChoice.nextLine();
-            if ( ! ((debugDecision.equalsIgnoreCase("n")) || (debugDecision.equalsIgnoreCase("y") || (mode.equalsIgnoreCase("Beginner") || (mode.equalsIgnoreCase("Intermediate") || (mode.equalsIgnoreCase("Expert"))))))) {
+            if ( ! (((debugDecision.equalsIgnoreCase("n")) || (debugDecision.equalsIgnoreCase("y"))) && ((mode.equalsIgnoreCase("Beginner")) || (mode.equalsIgnoreCase("Intermediate")) || (mode.equalsIgnoreCase("Expert"))))) {
                 System.out.println("Invalid Input - Try Again!");   // Makes sure both inputs are valid, loops until correct
             }
             else {
-                switch (mode) {     // Exits while loop and assigns input mode to usable parameter value
-                    case "Beginner":
+                switch (mode.toLowerCase()) {     // Exits while loop and assigns input mode to usable parameter value
+                    case "beginner":
                         modeNum = 3; // assigns variable to use as parameter to build new board
                         break;
-                    case "Intermediate":
+                    case "intermediate":
                         modeNum = 6;
                         break;
-                    case "Expert":
+                    case "expert":
                         modeNum = 9;
                         break;
                     default:
+                        System.out.println("Invalid Input! Switch Break Error!");
                         break;
                 }
                 break;

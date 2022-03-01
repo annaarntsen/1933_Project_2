@@ -42,7 +42,7 @@ public class Battleboats {
 
     public boolean locateCoordinates(int x, int y) {
         for (Cells i: spaces){
-            if (i.getRow() == x && i.getCol() == y) {
+            if ((i.getRow() == x) && (i.getCol() == y)) {
                 return true;
             }
         }
