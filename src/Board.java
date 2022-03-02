@@ -27,10 +27,11 @@ public class Board {
                 randX = r.nextInt(0,boardLength-1);                     //We use a while loop so as long as we are out of bounds, a random x and y position and orientation will be assigned.
                 randY = r.nextInt(0,boardLength-1);
                 randOrientation = r.nextBoolean();
+//                System.out.println(randX + " " + randY + " " + randOrientation);
             }
             while(!(inBounds(randX, randY, randOrientation, ship)) || overLap(randX, randY, randOrientation, ship)); //|| overLap(randX, randY, randOrientation, ship)
             Battleboats newBoat = new Battleboats(ship,randOrientation);
-            System.out.println(randX + " " + randY + " " + newBoat.getOrientation() + " " + newBoat.getSize());
+//            System.out.println(randX + " " + randY + " " + newBoat.getOrientation() + " " + newBoat.getSize());
             Cells[] boatCells = new Cells[ship];
             if(!randOrientation){    //If our orientation is horizontal, we want to place
                 for (int x = randX,i = 0; x < randX + ship; x++, i++){
@@ -56,17 +57,22 @@ public class Board {
         }
 
     public boolean inBounds(int x, int y, boolean orient, int sizeShip){    //This is a helper method that we use in placeBoats to check if the random placement
-        int shipSize = sizeShip;
-        if(x >= boardLength-1 || y >= boardLength-1 || x < 0 ||y < 0){       //is out of bounds or not.
+        int shipSize = sizeShip -1;
+
+//
+        if(x > boardLength-1 || y > boardLength-1 || x <= 0 ||y <= 0){       //is out of bounds or not.
+//
             return false;
         }
         if(!orient){
+
             shipSize += x;
         }
         else{
             shipSize += y;
         }
-        return shipSize < boardLength - 1;
+
+        return shipSize < boardLength;
     }
     public boolean overLap(int x, int y, boolean orient, int sizeShip) {  //This helper function is designed to check whether a boat's placement overlaps with the position of another.
         if(!orient) { //if horizontal
