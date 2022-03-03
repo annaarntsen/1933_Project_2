@@ -46,6 +46,7 @@ README File - Project 2
 		
 •  Any known bugs or defects in the program 
 	- Entering anything other than numbers when prompted for xy coordinates will kill the program
+	
 •  Any outside  sources  (aside  from  course  resources)  consulted  for  ideas  used  in  the  project,  in  the 
 format: 
 	- While(true) invalid input catch case in Game class main: https://stackoverflow.com/questions/18721884/re-prompt-user-after-invalid-input-in-java
