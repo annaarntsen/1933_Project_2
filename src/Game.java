@@ -15,6 +15,7 @@ public class Game {
     public void playGame(Board b) {
         trackTurns += 1;    // Tracks how many guesses' player has done
         while (!b.checkWin()) {     // checks to see if number of boats sunk is equal to number of boats total
+            System.out.println("\nTurn #" + trackTurns);
             switch (debugDecision) {    // Based on yes or no to debug input, prints associated board
                 case "y":
                     b.display();    //calls Board function display() on b ('b' aka 'playerBoard' passed in main)
@@ -47,12 +48,12 @@ public class Game {
                 case 3: // sunk
                     System.out.println("Sunk!");
                     System.out.println("Congrats! You sunk "+b.boatsSunk+" boat(s) in " + trackTurns + " turns!");
-                    break;
                 default:
                     break;
             }
             trackTurns += 1;
         }
+        b.display();
         System.out.println("Game Over! All " + b.boatsSunk + " boat(s) were sunk in "+(trackTurns-1)+" turns!");
         System.exit(0);
     }

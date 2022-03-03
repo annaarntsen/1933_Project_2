@@ -11,7 +11,7 @@ public class Board {
     private Battleboats[] boats;
     private Cells[][] board;
     private int[] boatSizes;
-    public int boatsSunk;
+    public int boatsSunk = 0;
 
 
     public void placeBoats() {      //Place boats randomly on the board
@@ -119,16 +119,21 @@ public class Board {
 
     public boolean checkSunk(int x, int y) {
         int sunkVal = 0;
+        int boatTally = 0;
         for (Battleboats eachBoat: boats) {
+            sunkVal = 0;
             for (Cells thisCell: eachBoat.getSpaces()) {
                 if (thisCell.getStatus() == 'H') {
                     sunkVal += 1;
                 }
             }
-            if (sunkVal >= eachBoat.getSize()) {
-                boatsSunk += 1;
-                return true;
+            if (sunkVal == eachBoat.getSize()) {
+                boatTally += 1;
+                }
             }
+        if (boatTally > boatsSunk) {
+            boatsSunk = boatTally;
+            return true;
         }
         return false;
     }
@@ -142,12 +147,20 @@ public class Board {
 
 
     public void display () {
+        int columnLabel = 0;
+        System.out.print("    ");
+        while (columnLabel<boardLength) {
+            System.out.print(columnLabel+"   ");
+            columnLabel++;
+        }
+        System.out.print("\n");
         for (int i = 0; i < boardLength; i++) {
+            System.out.print(i+"   ");
             for (int j = 0; j < boardLength; j++) {
                 if (board[j][i].getStatus() == 'B') {
                     for (Battleboats eachBoat : boats) {
                         if (eachBoat.locateCoordinates(j,i)) {
-                            System.out.print(board[j][i].getStatus() + "" + eachBoat.getSize() + " ");
+                            System.out.print(board[j][i].getStatus() + "" + eachBoat.getSize() + "  ");
                         }
                     }
                 }
@@ -157,18 +170,33 @@ public class Board {
             }
             System.out.println("\n");
         }
+        System.out.println("Boat Coordinates with Status:");
+        for (int numberPrintBoat = 0; numberPrintBoat < numBoats; numberPrintBoat++) {
+            System.out.println("Boat #" + numberPrintBoat + ": ");
+            for (Cells boatCell : boats[numberPrintBoat].getSpaces()) {
+                System.out.println(" (" + boatCell.getRow() + ", " + boatCell.getCol() + ") - " + boatCell.getStatus());
+            }
+        }
     }
 
     public void print () {
         //Prints out the fully revealed board if a player types in the print command (This
         //would be used for debugging purposes)
+        int columnLabel = 0;
+        System.out.print("    ");
+        while (columnLabel<boardLength) {
+            System.out.print(columnLabel+"   ");
+            columnLabel++;
+        }
+        System.out.print("\n");
         for (int i = 0; i < boardLength; i++) {
+            System.out.print(i+"   ");
             for (int j = 0; j < boardLength; j++) {
                 if (board[j][i].getStatus() == 'B') {
-                    System.out.print("-"+"  ");
+                    System.out.print("-"+"   ");
                 }
                 else {
-                    System.out.print(board[j][i].getStatus()+"  ");
+                    System.out.print(board[j][i].getStatus()+"   ");
                 }
             }
             System.out.println("\n");
