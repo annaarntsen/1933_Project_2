@@ -4,14 +4,14 @@ README File - Project 2
 	- Anna Arntsen (arnts071) and Ariel Larin (larin006)
 		
 •  Contributions of each partner (if working with a partner) 
-	- Created project outline and wrote / tested accordingly - collaborated for all parts. 
+	Created project outline and wrote / tested accordingly - collaborated for all parts. 
 	- Ariel Contributions: Battleboats.java, Cells.java, placeBoats in Board.java, inBounds in Board.java, overLap in Board.java
 	- Anna Contributions:
-		- Wrote README and project outline
+		- Wrote README, project outline, and comments
 		Battleboats:
-		- locateCoordinates() and Battleboats(length, orient)
+		- Wrote locateCoordinates() and Battleboats(length, orient)
 		Board:
-		- boardLength and boatsSunk variables
+		- Wrote boardLength and boatsSunk variables
 		- Updates in placeBoats(), inBounds(), overLap(), Board()
 		- Wrote fire(), checkSunk(), checkWin(), display(), print()
 		Game:
@@ -19,15 +19,17 @@ README File - Project 2
 
 •  How to compile and run your program 
 	1. Open terminal and enter "javac Game.java" to compile program
-	2. Follow with "java Game.java" to run the program
+	2. Follow with "java Game" to run the program
 	3. Follow prompts to begin battleship game
         	a. Either "y" or "n" to chose whether to run in debug mode or not
-		b. Enter "Beginner", "Intermediate", or "Expert" to initialize preferred game
+		b. Enter "Beginner", "Intermediate", or "Expert" to initialize preferred game difficulty
 	4. Game data will be shown, follow prompts unit all ships have been hit and the game exits
 		a. Note: xy coordinates need to be in format "x y", cannot be "xy"
 				
 •  Any assumptions
 	- Entered game coordinates will be within the correct range and not repeated - a penalty will be enforced if so
+	- Entered xy coordinates need to be in format "x y", cannot be "xy"
+	- Only "y" or "n" accepted for debug prompt, and "Beginner", "Intermediate", or "Expert" accepted for difficulty prompt (any capitalization)
 		
 •  Additional features that you implemented (if applicable)
 	- imported Scanner, Math, and Random 
