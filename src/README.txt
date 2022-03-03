@@ -20,3 +20,9 @@ format:
 •  Include the statement: “I certify that the information contained in this README file is complete 
 and accurate. I have both read and followed the course policies in the ‘Academic Integrity - Course 
 Policy’ section of the course syllabus.” and type your name(s) underneath 
+
+Ariel Larin, Anna Arntsen
+
+Ariel Larin (larin006)
+Contributions: Battleboats.java, Cells.java, placeBoats in Board.java, inBounds in Board.java, overLap in Board.java
+
