@@ -8,8 +8,7 @@ public class Cells {
     private char status;
     /*
     Character indicating the status of the Cell. There are three different possibilities
-    for this field: '-' Has not been guessed, no boat present | 'B' Has not been guessed, boat present | 'H' Has been guessed, boat present
-    | 'M' Has been guessed, no boat present
+    for this field: '-' Has not been guessed, no boat present | 'B' Has not been guessed, boat present | 'H' Has been guessed, boat present | 'M' Has been guessed, no boat present
      */
 
     public char getStatus() {
