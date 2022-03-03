@@ -26,7 +26,7 @@ public class Board {
 
             do {        // Assigns random x coordinate, y coordinate, and orientation
                 Random r = new Random();
-                randX = r.nextInt(0,boardLength-1);     // Assign coordinate between 0 and length of board - 1
+                randX = r.nextInt(0,boardLength-1);     // Assign coordinate between 0 and length of board indices
                 randY = r.nextInt(0,boardLength-1);
                 randOrientation = r.nextBoolean();      // Boolean false is horizontal, true vertical
             }
@@ -160,7 +160,7 @@ public class Board {
         }
         System.out.println("Boat Coordinates with Status:");        // Print coordinates with status for each boat on Board
         for (int numberPrintBoat = 0; numberPrintBoat < numBoats; numberPrintBoat++) {
-            System.out.println("Boat #" + numberPrintBoat + ": ");
+            System.out.println("Boat #" + (numberPrintBoat+1) + ": ");
             for (Cells boatCell : boats[numberPrintBoat].getSpaces()) {
                 System.out.println(" (" + boatCell.getRow() + ", " + boatCell.getCol() + ") - " + boatCell.getStatus());
             }

@@ -87,7 +87,6 @@ public class Game {
             }
         }
         Board playerBoard = new Board(modeNum);     // Initiates Board object with modeNum assigned above
-//        playerBoard.placeBoats();
         Game myGame = new Game();    // Creates new Game
         myGame.playGame(playerBoard);   // Calls helper function playGame() on Game myGame to play using Board playerBoard
     }
